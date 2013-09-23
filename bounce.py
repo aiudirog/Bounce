@@ -15,7 +15,8 @@ dimmension = []
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
 WIDTH, HEIGHT = screen.get_size() 
 
-speed = [2,2]
+x_speed = [2, 10, 2, 2, 2]
+y_speed = [2, 10, 2, 2, 2]
 black = 255, 0, 0
 
 #screen = pygame.display.set_mode((size), pygame.FULLSCREEN)
@@ -23,12 +24,12 @@ black = 255, 0, 0
 #ball = [pygame.image.load("ultraball.png"), ]
 
 
-file_names = [pygame.image.load("ultraball.png"), pygame.image.load("photo.jpg")]
+file_names = [pygame.image.load("ultraball.png"), pygame.image.load("1.jpg")]
 x = 2
 a = 0
 for ball in file_names:
     ballrect.append(ball.get_rect())
-    dimmension.append(ballrect[a].move(speed))
+    dimmension.append(ballrect[a].move(x_speed[a], y_speed[a]))
     a += 1
 
 #for file in file_name:
@@ -37,41 +38,54 @@ for ball in file_names:
 i = 0
 n = 0
 while True:
-    if i == x:
-        i = 0
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 pygame.quit()
+                    
+    for ball in file_names:
+        #if i == x:
+           #i = 0
         
-    dimmension[i] = ballrect[i].move(speed)
-    if dimmension[i].left < 0 or dimmension[i].right > WIDTH:
-        speed[0] = -speed[0]
-        if speed[1] < 0:
-            speed[1] = random.randint(1,20)
-            speed[1] = -speed[1]
-        else:
-            speed[1] = random.randint(1,20)
 
-    if dimmension[i].top < 0 or dimmension[i].bottom > HEIGHT:
-        speed[1] = -speed[1]
-        if speed[0] < 0:
-            speed[0] = random.randint(1,20)
-            speed[0] = -speed[0]
-        else:
-            speed[0] = random.randint(1,20)
+        dimmension[i] = ballrect[i].move(x_speed[i], y_speed[i])
+        
+        if dimmension[i].left < 0 or dimmension[i].right > WIDTH:
+            x_speed[i] = -x_speed[i]
+            if y_speed[i] < 0:
+                y_speed[i] = random.randint(1,20)
+                y_speed[i] = -y_speed[i]
+            else:
+                y_speed[i] = random.randint(1,20)
 
+        if dimmension[i].top < 0 or dimmension[i].bottom > HEIGHT:
+            y_speed[i] = -y_speed[i]
+            if x_speed[i] < 0:
+                x_speed[i] = random.randint(1,20)
+                x_speed[i] = -x_speed[i]
+            else:
+                x_speed[i] = random.randint(1,20)
+                
+        #x_speed[i] += 2
+        #y_speed[i] += 2
+        i += 1
+    i = 0
     screen.fill(black)
-    screen.blit(file_names[i], dimmension[i])
+    for ball in file_names:
+        screen.blit(file_names[i], dimmension[i])
+        i += 1
     pygame.display.flip()
-    print i
+    #print i
     print n
-    print ballrect[i]
-    print dimmension[i]
+    print x_speed
+    print y_speed
+    #print ballrect[i]
+    #print dimmension[i]
     print file_names
-    i += 1
+    i = 0
     n += 1
     
     

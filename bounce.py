@@ -36,11 +36,9 @@ for files in os.listdir("Balls"):
 count = 0
 for image in image_list:
     dir = os.path.dirname(__file__)
-    print "This is the dir:", dir
-    print image_list
     file_names.append(pygame.image.load(os.path.join(dir, "Balls" , image_list[count])))
-    x_speed.append(2)
-    y_speed.append(2)
+    x_speed.append(random.randint(1,10))
+    y_speed.append(random.randint(1,10))
     count += 1
 
 x = 2

@@ -13,11 +13,14 @@ WIDTH, HEIGHT = screen.get_size()
 #y_speed = [2, 10, 2, 2, 2]
 background = 255, 255, 255
 
+
+#Create a list of all images in dir.balls.
 os.chdir("/balls")
 for files in os.listdir("."):
     if files.endswith(".png"):
         image_list.append(files)
 
+#Load all images.
 count = 0
 for image in image_list:
    file_names.append(pygame.image.load(os.path.join("Balls" , image_list[count])))
@@ -26,6 +29,8 @@ for image in image_list:
    count += 1
 
 x = 2
+
+#prepare dimmesions and speed of balls.
 a = 0
 for ball in file_names:
     ballrect.append(ball.get_rect())
@@ -33,7 +38,10 @@ for ball in file_names:
     a += 1
 
 i = 0
-n = 0
+
+
+n = 0 #Frame Counter:
+
 while True:
 
     for event in pygame.event.get():
@@ -48,6 +56,8 @@ while True:
         #dimmension[i] = ballrect[i].move(x_speed[i], y_speed[i])
         dimmension[i] = dimmension[i].move(x_speed[i], y_speed[i])
         
+#Change direction and speed when encountering a wall.
+#This works. I know that.--------------------------
         if dimmension[i].left < 0 or dimmension[i].right > WIDTH:
             x_speed[i] = -x_speed[i]
             if y_speed[i] < 0:
@@ -63,9 +73,12 @@ while True:
                 x_speed[i] = -x_speed[i]
             else:
                 x_speed[i] = random.randint(1,20)
-                
-        x_speed[i] += 2
-        y_speed[i] += 2
+#---------------------------------------------------
+
+    #Used to force speed change:        
+        #x_speed[i] += 2
+        #y_speed[i] += 2
+
         i += 1
     i = 0
     screen.fill(background)
@@ -83,8 +96,9 @@ while True:
     #print ballrect[i]
     #print dimmension[i]
     print file_names
+    n += 1
 #--------------------
     i = 0
-    n += 1
+
     
     

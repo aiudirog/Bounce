@@ -9,9 +9,9 @@ image_list = []
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
 WIDTH, HEIGHT = screen.get_size() 
 
-x_speed = [2, 10, 2, 2, 2]
-y_speed = [2, 10, 2, 2, 2]
-black = 255, 255, 255
+#x_speed = [2, 10, 2, 2, 2]
+#y_speed = [2, 10, 2, 2, 2]
+background = 255, 255, 255
 
 #screen = pygame.display.set_mode((size), pygame.FULLSCREEN)
 
@@ -25,6 +25,8 @@ for files in os.listdir("."):
 count = 0
 for image in image_list:
    file_names.append(pygame.image.load(os.path.join("Balls" , image_list[count])))
+   x_speed.append(2)
+   y_speed.append(2)
    count += 1
 
 x = 2
@@ -76,7 +78,7 @@ while True:
         y_speed[i] += 2
         i += 1
     i = 0
-    screen.fill(black)
+    screen.fill(background)
     for ball in file_names:
         screen.blit(file_names[i], dimmension[i])
         i += 1

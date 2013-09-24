@@ -69,8 +69,8 @@ while True:
             else:
                 x_speed[i] = random.randint(1,20)
                 
-        #x_speed[i] += 2
-        #y_speed[i] += 2
+        x_speed[i] += 2
+        y_speed[i] += 2
         i += 1
     i = 0
     screen.fill(black)

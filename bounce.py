@@ -4,6 +4,7 @@ pygame.init()
 
 ballrect = []
 dimmension = []
+image_list = []
 
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
 WIDTH, HEIGHT = screen.get_size() 
@@ -16,10 +17,16 @@ black = 255, 255, 255
 
 #ball = [pygame.image.load("ultraball.png"), ]
 
+os.chdir("/balls")
+for files in os.listdir("."):
+    if files.endswith(".png"):
+        image_list.append(files)
 
-image_list = 
+count = 0
+for image in image_list:
+   file_names.append(pygame.image.load(os.path.join("Balls" , image_list[count])))
+   count += 1
 
-file_names = [pygame.image.load(os.path.join("Balls" , "1.png")), pygame.image.load(os.path.join("Balls" , "2.png"))]
 x = 2
 a = 0
 for ball in file_names:

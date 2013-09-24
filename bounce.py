@@ -19,8 +19,8 @@ background = 255, 255, 255
 
 os.chdir("/balls")
 for files in os.listdir("."):
-    if files.endswith(".png"):
-        image_list.append(files)
+    if files.endswith(".png"):
+        image_list.append(files)
 
 count = 0
 for image in image_list:

@@ -13,10 +13,6 @@ WIDTH, HEIGHT = screen.get_size()
 #y_speed = [2, 10, 2, 2, 2]
 background = 255, 255, 255
 
-#screen = pygame.display.set_mode((size), pygame.FULLSCREEN)
-
-#ball = [pygame.image.load("ultraball.png"), ]
-
 os.chdir("/balls")
 for files in os.listdir("."):
     if files.endswith(".png"):
@@ -36,9 +32,6 @@ for ball in file_names:
     dimmension.append(ballrect[a].move(x_speed[a], y_speed[a]))
     a += 1
 
-#for file in file_name:
-    #load(file)
-#ballrect = ball.get_rect()
 i = 0
 n = 0
 while True:
@@ -51,9 +44,6 @@ while True:
                 pygame.quit()
                     
     for ball in file_names:
-        #if i == x:
-           #i = 0
-        
 
         #dimmension[i] = ballrect[i].move(x_speed[i], y_speed[i])
         dimmension[i] = dimmension[i].move(x_speed[i], y_speed[i])
@@ -83,6 +73,9 @@ while True:
         screen.blit(file_names[i], dimmension[i])
         i += 1
     pygame.display.flip()
+
+#Debugging output:
+#-------------------
     #print i
     print n
     print x_speed
@@ -90,6 +83,7 @@ while True:
     #print ballrect[i]
     #print dimmension[i]
     print file_names
+#--------------------
     i = 0
     n += 1
     

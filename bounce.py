@@ -2,16 +2,9 @@ import sys, pygame, random, os
 from pygame.locals import *
 pygame.init()
 
-#image_list = {}
 ballrect = []
 dimmension = []
-#def load(file_name):
-    #if file_name in image_list:
-        #return image_list[file_name]
-    #image_list[file_name] = pygame.image.load(file_name)
-    #return image_list[file_name]
 
-#size = width, height =  1920, 1080
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
 WIDTH, HEIGHT = screen.get_size() 
 
@@ -23,6 +16,8 @@ black = 255, 255, 255
 
 #ball = [pygame.image.load("ultraball.png"), ]
 
+
+image_list = 
 
 file_names = [pygame.image.load(os.path.join("Balls" , "1.png")), pygame.image.load(os.path.join("Balls" , "2.png"))]
 x = 2
@@ -51,7 +46,8 @@ while True:
            #i = 0
         
 
-        dimmension[i] = ballrect[i].move(x_speed[i], y_speed[i])
+        #dimmension[i] = ballrect[i].move(x_speed[i], y_speed[i])
+        dimmension[i] = dimmension[i].move(x_speed[i], y_speed[i])
         
         if dimmension[i].left < 0 or dimmension[i].right > WIDTH:
             x_speed[i] = -x_speed[i]

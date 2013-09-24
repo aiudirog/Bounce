@@ -2,6 +2,7 @@ import sys, pygame, random, os
 from pygame.locals import *
 pygame.init()
 
+
 ballrect = []
 dimmension = []
 image_list = []
@@ -12,10 +13,19 @@ y_speed = []
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
 WIDTH, HEIGHT = screen.get_size() 
 
-#x_speed = [2, 10, 2, 2, 2]
-#y_speed = [2, 10, 2, 2, 2]
 background = 255, 255, 255
 
+def will_be_off_screen(dimmensions):
+    if dimmensions.left < 0:
+        return(1)
+    elif dimmensions.right > WIDTH:
+        return(2)
+    elif dimmensions.top < 0:
+        return(3)
+    elif dimmensions.bottom > HEIGHT:
+        return(4)
+    else:
+        return(0)
 
 #Create a list of all images in dir.balls.
 for files in os.listdir("Balls"):
@@ -66,16 +76,16 @@ while True:
         if dimmension[i].left < 0 and dimmension[i].top < 0:
             x_speed[i] = -x_speed[i]
             y_speed[i] = -y_speed[i]
-        if dimmension[i].left < 0 and dimmension[i].bottom > HEIGHT:
+        elif dimmension[i].left < 0 and dimmension[i].bottom > HEIGHT:
             x_speed[i] = -x_speed[i]
             y_speed[i] = -y_speed[i]
-        if dimmension[i].right > WIDTH  and dimmension[i].top < 0:
+        elif dimmension[i].right > WIDTH  and dimmension[i].top < 0:
             x_speed[i] = -x_speed[i]
             y_speed[i] = -y_speed[i]
-        if dimmension[i].right > WIDTH and dimmension[i].bottom > HEIGHT:
+        elif dimmension[i].right > WIDTH and dimmension[i].bottom > HEIGHT:
             x_speed[i] = -x_speed[i]
             y_speed[i] = -y_speed[i]
-        if dimmension[i].left < 0 or dimmension[i].right > WIDTH:
+        elif dimmension[i].left < 0 or dimmension[i].right > WIDTH:
             if x_speed[i] < 0:
                 x_speed[i] = random.randint(1,20)
             else:
@@ -87,7 +97,7 @@ while True:
             else:
                 y_speed[i] = random.randint(1,20)
 
-        if dimmension[i].top < 0 or dimmension[i].bottom > HEIGHT:
+        elif dimmension[i].top < 0 or dimmension[i].bottom > HEIGHT:
             if y_speed[i] < 0:
                 y_speed[i] = random.randint(1,20)
             else:
@@ -98,6 +108,17 @@ while True:
                 x_speed[i] = -x_speed[i]
             else:
                 x_speed[i] = random.randint(1,20)
+         for range(4):
+            off = will_be_off_screen(dimmension[i])
+            if off != 0:
+                if off == 1:
+                    dimmension[i].left = 0
+                if off == 2:
+                    dimmension[i].right = WIDTH
+                if off == 3:
+                    dimmension[i].top = 0
+                if off == 4:
+                    dimmension[i].bottom = HEIGHT
 #---------------------------------------------------
 
     #Used to force speed change:        

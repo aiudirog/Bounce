@@ -16,7 +16,7 @@ WIDTH, HEIGHT = screen.get_size()
 background = 255, 255, 255
 
 def will_be_off_screen(dimmensions):
-    if dimmensions.left < 0:
+    if dimmensions.left < 0:
         return(1)
     elif dimmensions.right > WIDTH:
         return(2)
@@ -39,8 +39,8 @@ for image in image_list:
     print "This is the dir:", dir
     print image_list
     file_names.append(pygame.image.load(os.path.join(dir, "Balls" , image_list[count])))
-    x_speed.append(21)
-    y_speed.append(21)
+    x_speed.append(2)
+    y_speed.append(2)
     count += 1
 
 x = 2
@@ -87,28 +87,28 @@ while True:
             y_speed[i] = -y_speed[i]
         elif dimmension[i].left < 0 or dimmension[i].right > WIDTH:
             if x_speed[i] < 0:
-                x_speed[i] = random.randint(1,20)
+                x_speed[i] = random.randint(1,10)
             else:
-                x_speed[i] = random.randint(1,20)
+                x_speed[i] = random.randint(1,10)
                 x_speed[i] = -x_speed[i]
             if y_speed[i] < 0:
-                y_speed[i] = random.randint(1,20)
+                y_speed[i] = random.randint(1,10)
                 y_speed[i] = -y_speed[i]
             else:
-                y_speed[i] = random.randint(1,20)
+                y_speed[i] = random.randint(1,10)
 
         elif dimmension[i].top < 0 or dimmension[i].bottom > HEIGHT:
             if y_speed[i] < 0:
-                y_speed[i] = random.randint(1,20)
+                y_speed[i] = random.randint(1,10)
             else:
-                y_speed[i] = random.randint(1,20)
+                y_speed[i] = random.randint(1,10)
                 y_speed[i] = -y_speed[i]
             if x_speed[i] < 0:
-                x_speed[i] = random.randint(1,20)
+                x_speed[i] = random.randint(1,10)
                 x_speed[i] = -x_speed[i]
             else:
-                x_speed[i] = random.randint(1,20)
-         for range(4):
+                x_speed[i] = random.randint(1,10)
+        for z in range(4):
             off = will_be_off_screen(dimmension[i])
             if off != 0:
                 if off == 1:

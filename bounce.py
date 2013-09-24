@@ -1,4 +1,4 @@
-import sys, pygame, random
+import sys, pygame, random, os
 from pygame.locals import *
 pygame.init()
 
@@ -17,14 +17,14 @@ WIDTH, HEIGHT = screen.get_size()
 
 x_speed = [2, 10, 2, 2, 2]
 y_speed = [2, 10, 2, 2, 2]
-black = 255, 0, 0
+black = 255, 255, 255
 
 #screen = pygame.display.set_mode((size), pygame.FULLSCREEN)
 
 #ball = [pygame.image.load("ultraball.png"), ]
 
 
-file_names = [pygame.image.load("ultraball.png"), pygame.image.load("1.jpg")]
+file_names = [pygame.image.load(os.path.join("Balls" , "1.png")), pygame.image.load(os.path.join("Balls" , "2.png"))]
 x = 2
 a = 0
 for ball in file_names:

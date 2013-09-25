@@ -1,4 +1,4 @@
-import sys, pygame, random, os
+import sys, pygame, random, os, platform
 from pygame.locals import *
 import pygame._view
 pygame.init()
@@ -21,7 +21,15 @@ image_list = []
 file_names = []
 x_speed = []
 y_speed = []
+speed_list = []
 
+if os.name == "posix":
+    plat = platform.system() 
+    if plat == "Darwin":
+        speed_list = [5,25]
+else:
+    speed_list = [2,10]
+    
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
 WIDTH, HEIGHT = screen.get_size() 
 
@@ -49,8 +57,8 @@ count = 0
 for image in image_list:
     dir = my_path #os.path.dirname(__file__)
     file_names.append(pygame.image.load(os.path.join(dir, "Balls" , image_list[count])))
-    x_speed.append(random.randint(1,10))
-    y_speed.append(random.randint(1,10))
+    x_speed.append(random.randint(*speed_list))
+    y_speed.append(random.randint(*speed_list))
     count += 1
 
 x = 2
@@ -67,13 +75,14 @@ i = 0
 
 n = 0 #Frame Counter:
 
-while True:
+while n < 200:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == KEYDOWN:
             if event.key == K_ESCAPE:
+                sys.exit()
                 pygame.quit()
                     
     for ball in file_names:
@@ -96,27 +105,27 @@ while True:
             y_speed[i] = -y_speed[i]
         elif dimmension[i].left < 0 or dimmension[i].right > WIDTH:
             if x_speed[i] < 0:
-                x_speed[i] = random.randint(1,10)
+                x_speed[i] = random.randint(*speed_list)
             else:
-                x_speed[i] = random.randint(1,10)
+                x_speed[i] = random.randint(*speed_list)
                 x_speed[i] = -x_speed[i]
             if y_speed[i] < 0:
-                y_speed[i] = random.randint(1,10)
+                y_speed[i] = random.randint(*speed_list)
                 y_speed[i] = -y_speed[i]
             else:
-                y_speed[i] = random.randint(1,10)
+                y_speed[i] = random.randint(*speed_list)
 
         elif dimmension[i].top < 0 or dimmension[i].bottom > HEIGHT:
             if y_speed[i] < 0:
-                y_speed[i] = random.randint(1,10)
+                y_speed[i] = random.randint(*speed_list)
             else:
-                y_speed[i] = random.randint(1,10)
+                y_speed[i] = random.randint(*speed_list)
                 y_speed[i] = -y_speed[i]
             if x_speed[i] < 0:
-                x_speed[i] = random.randint(1,10)
+                x_speed[i] = random.randint(*speed_list)
                 x_speed[i] = -x_speed[i]
             else:
-                x_speed[i] = random.randint(1,10)
+                x_speed[i] = random.randint(*speed_list)
         for z in range(4):
             off = will_be_off_screen(dimmension[i])
             if off != 0:
@@ -136,11 +145,12 @@ while True:
         screen.blit(file_names[i], dimmension[i])
         i += 1
     pygame.display.flip()
-
-#Debugging output:
+    n += 1
+    
+    #Debugging output:
 #-------------------
     #print i
-    #print n
+    print n
     #print x_speed
     #print y_speed
     #print ballrect[i]
@@ -149,6 +159,30 @@ while True:
     #n += 1
 #--------------------
     i = 0
+i = 0
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        elif event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                sys.exit()
+                pygame.quit()
+                    
+    for ball in file_names:
+
+        dimmension[i] = dimmension[i].move(x_speed[i], y_speed[i])
+        i += 1
+    i = 0
+    screen.fill(background)
+    for ball in file_names:
+        screen.blit(file_names[i], dimmension[i])
+        i += 1
+    i = 0
+    pygame.display.flip()
+    n += 0
+
+
 
     
     

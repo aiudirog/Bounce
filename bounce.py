@@ -78,7 +78,6 @@ while True:
                     
     for ball in file_names:
 
-        #dimmension[i] = ballrect[i].move(x_speed[i], y_speed[i])
         dimmension[i] = dimmension[i].move(x_speed[i], y_speed[i])
         
 #Change direction and speed when encountering a wall.
@@ -130,11 +129,6 @@ while True:
                 if off == 4:
                     dimmension[i].bottom = HEIGHT
 #---------------------------------------------------
-
-    #Used to force speed change:        
-        #x_speed[i] += 2
-        #y_speed[i] += 2
-
         i += 1
     i = 0
     screen.fill(background)

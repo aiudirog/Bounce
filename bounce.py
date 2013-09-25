@@ -1,7 +1,19 @@
 import sys, pygame, random, os
 from pygame.locals import *
+import pygame._view
 pygame.init()
 
+def we_are_frozen():
+    # All of the modules are built-in to the interpreter, e.g., by py2exe
+    return hasattr(sys, "frozen")
+
+def module_path():
+    encoding = sys.getfilesystemencoding()
+    if we_are_frozen():
+        return os.path.dirname(unicode(sys.executable, encoding))
+    return os.path.dirname(unicode(__file__, encoding))
+    
+my_path = module_path()
 
 ballrect = []
 dimmension = []
@@ -35,7 +47,7 @@ for files in os.listdir("Balls"):
 #Load all images.
 count = 0
 for image in image_list:
-    dir = os.path.dirname(__file__)
+    dir = my_path #os.path.dirname(__file__)
     file_names.append(pygame.image.load(os.path.join(dir, "Balls" , image_list[count])))
     x_speed.append(random.randint(1,10))
     y_speed.append(random.randint(1,10))

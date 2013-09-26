@@ -194,13 +194,12 @@ while True:
             
 
     mon = pygame.image.load("99.png")    #("600px-001Bulbasaur.png")
-    scale = 1  #= 100
+    scale = 1
     for r in range(100):
 
         
         mon_size = mon.get_size()
         mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] * scale, mon_size[1] * scale))
-        #mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scale, mon_size[1] / scale))
         mon_size = mon_shrunk.get_size()
         mon_rect = mon_shrunk.get_rect()
         mon_rect.left = (WIDTH/2 - mon_size[0]/2)
@@ -208,7 +207,7 @@ while True:
         screen.fill(background)
         screen.blit(mon_shrunk, mon_rect)
         pygame.display.flip()
-        scale += 1 #scale -= 1
+        scale += 1
         
     while True:
         for event in pygame.event.get():

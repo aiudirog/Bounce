@@ -1,4 +1,4 @@
-import sys, pygame, random, os, platform
+import sys, pygame, random, os, platform, time
 from pygame.locals import *
 import pygame._view
 pygame.init()
@@ -13,8 +13,18 @@ def module_path():
         return os.path.dirname(unicode(sys.executable, encoding))
     return os.path.dirname(unicode(__file__, encoding))
     
-my_path = module_path()
-
+def will_be_off_screen(dimmensions):
+    if dimmensions.left < 0:
+        return(1)
+    elif dimmensions.right > WIDTH:
+        return(2)
+    elif dimmensions.top < 0:
+        return(3)
+    elif dimmensions.bottom > HEIGHT:
+        return(4)
+    else:
+        return(0)
+        
 ballrect = []
 dimmension = []
 image_list = []
@@ -34,26 +44,18 @@ screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 WIDTH, HEIGHT = screen.get_size() 
 
 background = 255, 255, 255
+my_path = module_path()
 
-def will_be_off_screen(dimmensions):
-    if dimmensions.left < 0:
-        return(1)
-    elif dimmensions.right > WIDTH:
-        return(2)
-    elif dimmensions.top < 0:
-        return(3)
-    elif dimmensions.bottom > HEIGHT:
-        return(4)
-    else:
-        return(0)
 
-#Create a list of all images in dir.balls.
+
+    #Create a list of all images in dir.balls.
 for files in os.listdir("Balls"):
     if files.endswith(".png"):
         image_list.append(files)
 
-#Load all images.
+    #Load all images.
 count = 0
+
 for image in image_list:
     dir = my_path #os.path.dirname(__file__)
     file_names.append(pygame.image.load(os.path.join(dir, "Balls" , image_list[count])))
@@ -71,118 +73,145 @@ for ball in file_names:
     a += 1
 
 i = 0
+while True:    
 
+    n = 0 #Frame Counter:
 
-n = 0 #Frame Counter:
+    while n < 500:
 
-while n < 200:
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-        elif event.type == KEYDOWN:
-            if event.key == K_ESCAPE:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 sys.exit()
-                pygame.quit()
-                    
-    for ball in file_names:
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    sys.exit()
+                    pygame.quit()
+                        
+        for ball in file_names:
 
-        dimmension[i] = dimmension[i].move(x_speed[i], y_speed[i])
+            dimmension[i] = dimmension[i].move(x_speed[i], y_speed[i])
+            
+    #Change direction and speed when encountering a wall.
+    #This works. I know that.--------------------------
+            if dimmension[i].left < 0 and dimmension[i].top < 0:
+                x_speed[i] = -x_speed[i]
+                y_speed[i] = -y_speed[i]
+            elif dimmension[i].left < 0 and dimmension[i].bottom > HEIGHT:
+                x_speed[i] = -x_speed[i]
+                y_speed[i] = -y_speed[i]
+            elif dimmension[i].right > WIDTH  and dimmension[i].top < 0:
+                x_speed[i] = -x_speed[i]
+                y_speed[i] = -y_speed[i]
+            elif dimmension[i].right > WIDTH and dimmension[i].bottom > HEIGHT:
+                x_speed[i] = -x_speed[i]
+                y_speed[i] = -y_speed[i]
+            elif dimmension[i].left < 0 or dimmension[i].right > WIDTH:
+                if x_speed[i] < 0:
+                    x_speed[i] = random.randint(*speed_list)
+                else:
+                    x_speed[i] = random.randint(*speed_list)
+                    x_speed[i] = -x_speed[i]
+                if y_speed[i] < 0:
+                    y_speed[i] = random.randint(*speed_list)
+                    y_speed[i] = -y_speed[i]
+                else:
+                    y_speed[i] = random.randint(*speed_list)
+
+            elif dimmension[i].top < 0 or dimmension[i].bottom > HEIGHT:
+                if y_speed[i] < 0:
+                    y_speed[i] = random.randint(*speed_list)
+                else:
+                    y_speed[i] = random.randint(*speed_list)
+                    y_speed[i] = -y_speed[i]
+                if x_speed[i] < 0:
+                    x_speed[i] = random.randint(*speed_list)
+                    x_speed[i] = -x_speed[i]
+                else:
+                    x_speed[i] = random.randint(*speed_list)
+            for z in range(4):
+                off = will_be_off_screen(dimmension[i])
+                if off != 0:
+                    if off == 1:
+                        dimmension[i].left = 0
+                    if off == 2:
+                        dimmension[i].right = WIDTH
+                    if off == 3:
+                        dimmension[i].top = 0
+                    if off == 4:
+                        dimmension[i].bottom = HEIGHT
+    #---------------------------------------------------
+            i += 1
+        i = 0
+        screen.fill(background)
+        for ball in file_names:
+            screen.blit(file_names[i], dimmension[i])
+            i += 1
+        pygame.display.flip()
+        n += 1
         
-#Change direction and speed when encountering a wall.
-#This works. I know that.--------------------------
-        if dimmension[i].left < 0 and dimmension[i].top < 0:
-            x_speed[i] = -x_speed[i]
-            y_speed[i] = -y_speed[i]
-        elif dimmension[i].left < 0 and dimmension[i].bottom > HEIGHT:
-            x_speed[i] = -x_speed[i]
-            y_speed[i] = -y_speed[i]
-        elif dimmension[i].right > WIDTH  and dimmension[i].top < 0:
-            x_speed[i] = -x_speed[i]
-            y_speed[i] = -y_speed[i]
-        elif dimmension[i].right > WIDTH and dimmension[i].bottom > HEIGHT:
-            x_speed[i] = -x_speed[i]
-            y_speed[i] = -y_speed[i]
-        elif dimmension[i].left < 0 or dimmension[i].right > WIDTH:
-            if x_speed[i] < 0:
-                x_speed[i] = random.randint(*speed_list)
-            else:
-                x_speed[i] = random.randint(*speed_list)
-                x_speed[i] = -x_speed[i]
-            if y_speed[i] < 0:
-                y_speed[i] = random.randint(*speed_list)
-                y_speed[i] = -y_speed[i]
-            else:
-                y_speed[i] = random.randint(*speed_list)
-
-        elif dimmension[i].top < 0 or dimmension[i].bottom > HEIGHT:
-            if y_speed[i] < 0:
-                y_speed[i] = random.randint(*speed_list)
-            else:
-                y_speed[i] = random.randint(*speed_list)
-                y_speed[i] = -y_speed[i]
-            if x_speed[i] < 0:
-                x_speed[i] = random.randint(*speed_list)
-                x_speed[i] = -x_speed[i]
-            else:
-                x_speed[i] = random.randint(*speed_list)
-        for z in range(4):
-            off = will_be_off_screen(dimmension[i])
-            if off != 0:
-                if off == 1:
-                    dimmension[i].left = 0
-                if off == 2:
-                    dimmension[i].right = WIDTH
-                if off == 3:
-                    dimmension[i].top = 0
-                if off == 4:
-                    dimmension[i].bottom = HEIGHT
-#---------------------------------------------------
-        i += 1
+        #Debugging output:
+    #-------------------
+        #print i
+        print n
+        #print x_speed
+        #print y_speed
+        #print ballrect[i]
+        #print dimmension[i]
+        #print file_names
+        #n += 1
+    #--------------------
+        i = 0
     i = 0
-    screen.fill(background)
-    for ball in file_names:
-        screen.blit(file_names[i], dimmension[i])
-        i += 1
-    pygame.display.flip()
-    n += 1
-    
-    #Debugging output:
-#-------------------
-    #print i
-    print n
-    #print x_speed
-    #print y_speed
-    #print ballrect[i]
-    #print dimmension[i]
-    #print file_names
-    #n += 1
-#--------------------
-    i = 0
-i = 0
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-        elif event.type == KEYDOWN:
-            if event.key == K_ESCAPE:
+    counter = 8
+    stored_second = 61
+    while counter > 0:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 sys.exit()
-                pygame.quit()
-                    
-    for ball in file_names:
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    sys.exit()
+                    pygame.quit()
+                        
+        for ball in file_names:
 
-        dimmension[i] = dimmension[i].move(x_speed[i], y_speed[i])
-        i += 1
-    i = 0
-    screen.fill(background)
-    for ball in file_names:
-        screen.blit(file_names[i], dimmension[i])
-        i += 1
-    i = 0
-    pygame.display.flip()
-    n += 0
+            dimmension[i] = dimmension[i].move(x_speed[i], y_speed[i])
+            i += 1
+        i = 0
+        screen.fill(background)
+        for ball in file_names:
+            screen.blit(file_names[i], dimmension[i])
+            i += 1
+        i = 0
+        pygame.display.flip()
+        current_second = time.localtime()[5]
+        if stored_second != current_second:
+            stored_second = current_second
+            counter -= 1
 
+            
 
+    mon = pygame.image.load("600px-001Bulbasaur.png")
+    scale = 100
+    for r in range(100):
 
-    
-    
+        
+        mon_size = mon.get_size()
+        mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scale, mon_size[1] / scale))
+        mon_size = mon_shrunk.get_size()
+        mon_rect = mon_shrunk.get_rect()
+        mon_rect.left = (WIDTH/2 - mon_size[0]/2)
+        mon_rect.top = (HEIGHT/2 - mon_size[1]/2)
+        screen.fill(background)
+        screen.blit(mon_shrunk, mon_rect)
+        pygame.display.flip()
+        scale -= 1
+        
+    while True:
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                elif event.type == KEYDOWN:
+                    if event.key == K_ESCAPE:
+                        sys.exit()
+                        pygame.quit()

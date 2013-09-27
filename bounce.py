@@ -33,12 +33,14 @@ x_speed = []
 y_speed = []
 speed_list = []
 
-speed_list = [2,10]
+
 
 if os.name == "posix":
     plat = platform.system() 
     if plat == "Darwin":
         speed_list = [5,25]
+    else:
+        speed_list = [2,10]
 else:
     speed_list = [2,10]
     
@@ -193,14 +195,13 @@ while True:
 
             
 
-    mon = pygame.image.load("99.png")    #("600px-001Bulbasaur.png")
-    scale = 1  #= 100
+    mon = pygame.image.load("600px-001Bulbasaur.png")
+    scale = 100
     for r in range(100):
 
         
         mon_size = mon.get_size()
-        mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] * scale, mon_size[1] * scale))
-        #mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scale, mon_size[1] / scale))
+        mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scale, mon_size[1] / scale))
         mon_size = mon_shrunk.get_size()
         mon_rect = mon_shrunk.get_rect()
         mon_rect.left = (WIDTH/2 - mon_size[0]/2)
@@ -208,7 +209,7 @@ while True:
         screen.fill(background)
         screen.blit(mon_shrunk, mon_rect)
         pygame.display.flip()
-        scale += 1 #scale -= 1
+        scale -= 1
         
     while True:
         for event in pygame.event.get():

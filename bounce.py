@@ -213,17 +213,26 @@ while True:
         
         
     catchball = pygame.image.load("")
-    catchball_size = catchball.get_size()
+    catchball_rect = catchball.get_rect()
     
-    catchball_size.left = WIDTH
-    catchball_size.top = (HEIGHT/2 - catchball_size[1]/2)
+    catchball_rect.left = WIDTH
+    catchball_rect.top = (HEIGHT/2 - catchball_size[1]/2)
     screen.fill(background)
     screen.blit(mon_shrunk, mon_rect)
-    screen.blit(catchball, catchball_size)
+    screen.blit(catchball, catchball_rect)
     pygame.display.flip()
 
+    #move ball across screen.
+    while True:
+        catchball_speed = [-2,2]
+        catchball_rect = catchball_rect.move(speed)
+        if catchball_rect.bottom > HEIGHT:
+            catchball_speed[1] = -catchball_speed[1]
+            screen.fill(background)
+        screen.blit(mon_shrunk, mon_rect)
+        screen.blit(catchball, catchball_rect)
+        pygame.display.flip()
 
-        
     while True:
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:

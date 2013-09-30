@@ -156,7 +156,7 @@ while True:
         #Debugging output:
     #-------------------
         #print i
-        print n
+        #print n
         #print x_speed
         #print y_speed
         #print ballrect[i]
@@ -210,6 +210,9 @@ while True:
         screen.blit(mon_shrunk, mon_rect)
         pygame.display.flip()
         scale -= 1
+        
+        
+    
         
     while True:
         for event in pygame.event.get():

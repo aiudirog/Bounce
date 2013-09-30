@@ -212,7 +212,17 @@ while True:
         scale -= 1
         
         
+    catchball = pygame.image.load("")
+    catchball_size = catchball.get_size()
     
+    catchball_size.left = WIDTH
+    catchball_size.top = (HEIGHT/2 - catchball_size[1]/2)
+    screen.fill(background)
+    screen.blit(mon_shrunk, mon_rect)
+    screen.blit(catchball, catchball_size)
+    pygame.display.flip()
+
+
         
     while True:
         for event in pygame.event.get():

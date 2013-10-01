@@ -25,6 +25,15 @@ def will_be_off_screen(dimmensions):
     else:
         return(0)
         
+def to_exit_or_not_to_exit():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        elif event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                sys.exit()
+                pygame.quit()
+        
 ballrect = []
 dimmension = []
 image_list = []
@@ -83,13 +92,7 @@ while True:
 
     while n < 500:
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            elif event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    sys.exit()
-                    pygame.quit()
+        to_exit_or_not_to_exit()
                         
         for ball in file_names:
 
@@ -169,13 +172,7 @@ while True:
     counter = 8
     stored_second = 61
     while counter > 0:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            elif event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    sys.exit()
-                    pygame.quit()
+        to_exit_or_not_to_exit()
                         
         for ball in file_names:
 
@@ -199,7 +196,7 @@ while True:
     scale = 100
     for r in range(100):
 
-        
+        to_exit_or_not_to_exit()
         mon_size = mon.get_size()
         mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scale, mon_size[1] / scale))
         mon_size = mon_shrunk.get_size()
@@ -212,20 +209,24 @@ while True:
         scale -= 1
         
         
-    catchball = pygame.image.load("")
+    catchball = pygame.image.load("0000.png")
+    catchball_size = catchball.get_size()
+    catchball = pygame.transform.smoothscale(catchball, (catchball_size[0] / 75, catchball_size[1] / 75))
     catchball_rect = catchball.get_rect()
     
     catchball_rect.left = WIDTH
-    catchball_rect.top = (HEIGHT/2 - catchball_size[1]/2)
+    catchball_rect.bottom = (HEIGHT/2 - catchball_size[1]/2)
     screen.fill(background)
     screen.blit(mon_shrunk, mon_rect)
+    screen.fill(background)
     screen.blit(catchball, catchball_rect)
     pygame.display.flip()
 
-    #move ball across screen.
+    #move ball across screen and bounce on bottom.
     while True:
+        to_exit_or_not_to_exit()
         catchball_speed = [-2,2]
-        catchball_rect = catchball_rect.move(speed)
+        catchball_rect = catchball_rect.move(catchball_speed)
         if catchball_rect.bottom > HEIGHT:
             catchball_speed[1] = -catchball_speed[1]
             screen.fill(background)
@@ -234,10 +235,4 @@ while True:
         pygame.display.flip()
 
     while True:
-        for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-                elif event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        sys.exit()
-                        pygame.quit()
+        to_exit_or_not_to_exit()

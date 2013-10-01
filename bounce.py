@@ -211,25 +211,30 @@ while True:
         
     catchball = pygame.image.load("0000.png")
     catchball_size = catchball.get_size()
-    catchball = pygame.transform.smoothscale(catchball, (catchball_size[0] / 75, catchball_size[1] / 75))
+    catchball = pygame.transform.smoothscale(catchball, (catchball_size[0] / 3, catchball_size[1] / 3))
     catchball_rect = catchball.get_rect()
     
     catchball_rect.left = WIDTH
-    catchball_rect.bottom = (HEIGHT/2 - catchball_size[1]/2)
+    catchball_rect.bottom = (HEIGHT/2)
     screen.fill(background)
     screen.blit(mon_shrunk, mon_rect)
     screen.fill(background)
+    screen.blit(mon_shrunk, mon_rect)
     screen.blit(catchball, catchball_rect)
     pygame.display.flip()
-
+    catchball_speed = [-2,2]
+    touched_bottom = False
     #move ball across screen and bounce on bottom.
     while True:
         to_exit_or_not_to_exit()
-        catchball_speed = [-2,2]
         catchball_rect = catchball_rect.move(catchball_speed)
         if catchball_rect.bottom > HEIGHT:
-            catchball_speed[1] = -catchball_speed[1]
-            screen.fill(background)
+            catchball_speed [1] = -catchball_speed[1]
+            touched_bottom = True
+        if touched_bottom == True:
+            if catchball_rect.bottom < (HEIGHT/2):
+                break
+        screen.fill(background)
         screen.blit(mon_shrunk, mon_rect)
         screen.blit(catchball, catchball_rect)
         pygame.display.flip()

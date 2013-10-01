@@ -211,7 +211,7 @@ while True:
         
     catchball = pygame.image.load("0000.png")
     catchball_size = catchball.get_size()
-    catchball = pygame.transform.smoothscale(catchball, (catchball_size[0] / 3, catchball_size[1] / 3))
+    catchball = pygame.transform.smoothscale(catchball, (catchball_size[0], catchball_size[1])) #/ 3, catchball_size[1] / 3))
     catchball_rect = catchball.get_rect()
     
     catchball_rect.left = WIDTH
@@ -232,7 +232,7 @@ while True:
             catchball_speed [1] = -catchball_speed[1]
             touched_bottom = True
         if touched_bottom == True:
-            if catchball_rect.bottom < (HEIGHT/2):
+            if catchball_rect.bottom < (HEIGHT/2 - catchball_size[1]/2):
                 break
         screen.fill(background)
         screen.blit(mon_shrunk, mon_rect)

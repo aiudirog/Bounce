@@ -226,5 +226,8 @@ while True:
     screen.blit(catchball, catchball_rect)
     pygame.display.flip()
 
+    
+#Open Pokeball:
+pygame.image.load(os.path.join(dir, "" , "", image))
 while True:
     to_exit_or_not_to_exit()

@@ -21,9 +21,31 @@ def to_exit_or_not_to_exit():
             if event.key == K_ESCAPE:
                 sys.exit()
                 pygame.quit()
-
+                
+def will_be_off_screen(dimmensions):
+    if dimmensions.left < 0:
+        return(1)
+    elif dimmensions.right > WIDTH:
+        return(2)
+    elif dimmensions.top < 0:
+        return(3)
+    elif dimmensions.bottom > HEIGHT:
+        return(4)
+    else:
+        return(0)
+        
+if os.name == "posix":
+    plat = platform.system() 
+    if plat == "Darwin":
+        speed_list = [5,25]
+    else:
+        speed_list = [2,10]
+else:
+    speed_list = [2,10]
+        
 image_list = []
 file_names = []
+balls = []
            
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
 WIDTH, HEIGHT = screen.get_size() 
@@ -35,7 +57,9 @@ my_path = module_path()
 for files in os.listdir("Balls"):
     if files.endswith(".png"):
         image_list.append(files)
-                  
+
+dir = my_path
+    
 class Ball():
 
     def __init__(self, image, x, y): 
@@ -48,12 +72,13 @@ class Ball():
         self.setup()
     
     def setup(self):
-        self.ball = pygame.image.load(self.image)
+        self.ball = pygame.image.load(os.path.join(dir, "Balls" , self.image))
         self.ballrect = self.ball.get_rect()
         
     def update(self):
     #Change direction and speed when encountering a wall.
     #This works. I know that.--------------------------
+        self.ballrect = self.ballrect.move(self.speed)
         if self.ballrect.left < 0 and self.ballrect.top < 0:
             self.speed[0] = -self.speed[0]
             self.speed[1] = -self.speed[1]
@@ -72,23 +97,23 @@ class Ball():
             else:
                 self.speed[0] = random.randint(*speed_list)
                 self.speed[0] = -self.speed[0]
-            if y_speed[i] < 0:
-                y_speed[i] = random.randint(*speed_list)
-                y_speed[i] = -y_speed[i]
+            if self.speed[1] < 0:
+                self.speed[1] = random.randint(*speed_list)
+                self.speed[1] = -self.speed[1]
             else:
-                y_speed[i] = random.randint(*speed_list)
+                self.speed[1] = random.randint(*speed_list)
 
         elif self.ballrect.top < 0 or self.ballrect.bottom > HEIGHT:
-            if y_speed[i] < 0:
-                y_speed[i] = random.randint(*speed_list)
+            if self.speed[1] < 0:
+                self.speed[1] = random.randint(*speed_list)
             else:
-                y_speed[i] = random.randint(*speed_list)
-                y_speed[i] = -y_speed[i]
-            if x_speed[i] < 0:
+                self.speed[1] = random.randint(*speed_list)
+                self.speed[1] = -self.speed[1]
+            if self.speed[0] < 0:
                 self.speed[0] = random.randint(*speed_list)
                 self.speed[0] = -self.speed[0]
             else:
-                x_speed[i] = random.randint(*speed_list)
+                self.speed[0] = random.randint(*speed_list)
         for z in range(4):
             off = will_be_off_screen(self.ballrect)
             if off != 0:
@@ -100,20 +125,106 @@ class Ball():
                     self.ballrect.top = 0
                 if off == 4:
                     self.ballrect.bottom = HEIGHT
-        
+    def update_no_boundaries(self):    
+        self.ballrect = self.ballrect.move(self.speed)
+    
     def render(self, screen):
         screen.blit(self.ball, self.ballrect)            
                
-               
-                
-def will_be_off_screen(dimmensions):
-    if dimmensions.left < 0:
-        return(1)
-    elif dimmensions.right > WIDTH:
-        return(2)
-    elif dimmensions.top < 0:
-        return(3)
-    elif dimmensions.bottom > HEIGHT:
-        return(4)
-    else:
-        return(0)
+for image in image_list:
+    ball = Ball(image, random.randint(*speed_list), random.randint(*speed_list))
+    balls.append(ball)   
+
+stored_second = 61
+Timer = random.randint(5,10)   
+ 
+while Timer > 0:
+    to_exit_or_not_to_exit()
+    
+    screen.fill(background)
+    
+    for ball in balls:
+        ball.update()
+        ball.render(screen)
+        
+    pygame.display.flip()
+    current_second = time.localtime()[5]
+    if stored_second != current_second:
+        stored_second = current_second
+        Timer -= 1
+  
+Timer = 8
+while Timer > 0:
+    to_exit_or_not_to_exit()
+    
+    screen.fill(background)
+    
+    for ball in balls:
+        ball.update_no_boundaries()
+        ball.render(screen)
+        
+    pygame.display.flip()
+    current_second = time.localtime()[5]
+    if stored_second != current_second:
+        stored_second = current_second
+        Timer -= 1
+
+
+
+
+
+  
+mon = pygame.image.load("600px-001Bulbasaur.png")
+scale = 100
+for r in range(100):
+
+    to_exit_or_not_to_exit()
+    mon_size = mon.get_size()
+    mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scale, mon_size[1] / scale))
+    mon_size = mon_shrunk.get_size()
+    mon_rect = mon_shrunk.get_rect()
+    mon_rect.left = (WIDTH/2 - mon_size[0]/2)
+    mon_rect.top = (HEIGHT/2 - mon_size[1]/2)
+    screen.fill(background)
+    screen.blit(mon_shrunk, mon_rect)
+    pygame.display.flip()
+    scale -= 1
+    
+    
+catchball = pygame.image.load("0000.png")
+catchball_size = catchball.get_size()
+catchball = pygame.transform.smoothscale(catchball, (catchball_size[0] / 3, catchball_size[1] / 3))
+catchball_size = catchball.get_size()
+catchball_rect = catchball.get_rect()
+
+catchball_rect.left = WIDTH
+catchball_rect.bottom = (HEIGHT/2)
+screen.fill(background)
+screen.blit(mon_shrunk, mon_rect)
+screen.fill(background)
+screen.blit(mon_shrunk, mon_rect)
+screen.blit(catchball, catchball_rect)
+pygame.display.flip()
+catchball_speed = [-2,2]
+touched_bottom = False
+#move ball across screen and bounce on bottom.
+mon_speed = [-3,0]
+while True:
+    to_exit_or_not_to_exit()
+    catchball_rect = catchball_rect.move(catchball_speed)
+    if catchball_rect.bottom > HEIGHT:
+        catchball_speed [1] = -catchball_speed[1]
+        touched_bottom = True
+    if touched_bottom == True:
+        if catchball_rect.bottom < (HEIGHT/2 + catchball_size[1]/3):
+            break
+    mon_rect = mon_rect.move(mon_speed)
+    if mon_rect.left < 0:
+        mon_speed = [0,0]
+    screen.fill(background)
+    screen.blit(mon_shrunk, mon_rect)
+    screen.blit(catchball, catchball_rect)
+    pygame.display.flip()
+
+while True:
+    to_exit_or_not_to_exit()

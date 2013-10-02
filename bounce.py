@@ -217,7 +217,7 @@ while True:
     catchball_rect.left = WIDTH
     catchball_rect.bottom = (HEIGHT/2)
     screen.fill(background)
-    screen.blit(mon_shrunk, mon_rect)
+    screen.blit(mon_shrunk, mon_recbot)
     screen.fill(background)
     screen.blit(mon_shrunk, mon_rect)
     screen.blit(catchball, catchball_rect)

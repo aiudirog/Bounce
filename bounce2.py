@@ -46,6 +46,8 @@ else:
 image_list = []
 file_names = []
 balls = []
+list_of_death_star_pokeballs = []
+death_star_pokeballs = []
            
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
 WIDTH, HEIGHT = screen.get_size() 
@@ -205,10 +207,10 @@ screen.fill(background)
 screen.blit(mon_shrunk, mon_rect)
 screen.blit(catchball, catchball_rect)
 pygame.display.flip()
-catchball_speed = [-2,2]
+catchball_speed = [-6,6]
 touched_bottom = False
 #move ball across screen and bounce on bottom.
-mon_speed = [-3,0]
+mon_speed = [-6,0]
 while True:
     to_exit_or_not_to_exit()
     catchball_rect = catchball_rect.move(catchball_speed)
@@ -228,6 +230,19 @@ while True:
 
     
 #Open Pokeball:
-pygame.image.load(os.path.join(dir, "" , "", image))
+for files in os.listdir(os.path.join("Premium_Ball" , "output", "no_shadows")):
+    if files.endswith(".png"):
+        list_of_death_star_pokeballs.append(files)
+        
+for image in list_of_death_star_pokeballs:
+    current_death_star_pokeball = pygame.image.load(os.path.join(dir, "Premium_Ball" , "output", "no_shadows", image))
+    current_death_star_pokeball = pygame.transform.smoothscale(current_death_star_pokeball, (catchball_size[0], catchball_size[1]))
+    screen.fill(background)
+    screen.blit(mon_shrunk, mon_rect)
+    screen.blit(current_death_star_pokeball, catchball_rect)
+    pygame.display.flip()
+
+
+  
 while True:
     to_exit_or_not_to_exit()

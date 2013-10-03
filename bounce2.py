@@ -242,7 +242,9 @@ for image in list_of_death_star_pokeballs:
     screen.blit(current_death_star_pokeball, catchball_rect)
     pygame.display.flip()
 
-
+# Formula for movement:
+#  x = x, + vt + 1/2at ** 2
+#  v = (-1/2at **2) / 2
   
 while True:
     to_exit_or_not_to_exit()

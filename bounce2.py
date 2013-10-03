@@ -33,7 +33,18 @@ def will_be_off_screen(dimmensions):
         return(4)
     else:
         return(0)
-        
+def mov_poke_into_ball(mon_shrunk, current_death_star_pokeball):
+    mon = mon_shrunk
+    ball = current_death_star_pokeball
+    # Formula for movement:
+    #  x = x, + vt + 1/2at ** 2
+    #  v = (-1/2a t**2) / t
+    #  v = (-1/2a x**2) / x
+    #acceleration:
+    a = 
+    #final horisontal point:
+    
+    
 if os.name == "posix":
     plat = platform.system() 
     if plat == "Darwin":
@@ -242,9 +253,7 @@ for image in list_of_death_star_pokeballs:
     screen.blit(current_death_star_pokeball, catchball_rect)
     pygame.display.flip()
 
-# Formula for movement:
-#  x = x, + vt + 1/2at ** 2
-#  v = (-1/2at **2) / 2
+
   
 while True:
     to_exit_or_not_to_exit()

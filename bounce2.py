@@ -33,16 +33,28 @@ def will_be_off_screen(dimmensions):
         return(4)
     else:
         return(0)
-def mov_poke_into_ball(mon_shrunk, current_death_star_pokeball):
-    mon = mon_shrunk
+def mov_poke_into_ball(mon_shrunk, mon_rect, current_death_star_pokeball, catchball_rect, catchball_size):
     ball = current_death_star_pokeball
+    ball_rect = catchball_rect
+    ball_size = catchball_size
+
     # Formula for movement:
     #  x = x, + vt + 1/2at ** 2
-    #  v = (-1/2a t**2) / t
-    #  v = (-1/2a x**2) / x
+    #  v = (1/2a t**2) / t
+    #  v = (1/2a x**2) / x
     #acceleration:
-    a = 
+    a = 32
     #final horisontal point:
+    x = ball_rect.right - (ball_size[0] / 3)
+    if (x%2) != 0:
+        x += 1
+    v = a/2 * (x**2)
+    counter = 0
+    for num in range(x/2):
+        vert = v(counter) + a/2(counter**2)
+        mon_rect = mon_rect.move(counter, vert)
+
+    
     
     
 if os.name == "posix":

@@ -22,6 +22,10 @@ def to_exit_or_not_to_exit():
                 sys.exit()
                 pygame.quit()
                 
+def exit_now():
+    sys.exit()
+    pygame.quit()
+                
 def will_be_off_screen(dimmensions):
     if dimmensions.left < 0:
         return(1)
@@ -49,13 +53,17 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeba
     x = ball_rect.right - (ball_size[0] / 3)
     if (x%2) != 0:
         x += 1
-    v = -(a/2 * (x**2))
+    v = (-(a/2 * (x**2)))/x
+    
     counter = 0
     scaler = 100
     for num in range((x/2)):
-        vert = v(counter) + a/2(counter**2)
-        mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scaler, mon_size[1] / scaler))
+        to_exit_or_not_to_exit()
+        vert = v*(counter) + a/2*(counter**2)
+        #mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scaler, mon_size[1] / scaler))
+        #vert_speed = vert - (mon_rect.bottom/2)
         mon_rect = mon_rect.move(counter, vert)
+        print counter, "|", vert, "|", v, "|", x
         screen.fill(background)
         screen.blit(mon_shrunk, mon_rect)
         screen.blit(ball, ball_rect)
@@ -64,7 +72,7 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeba
 #Eventually need to make scaler run proportional to x so that it is a smooth scale down to 10% over the arc.
         if scaler  > 10:
             scaler -= 1
-
+    exit_now()
     
     
     
@@ -167,7 +175,7 @@ class Ball():
     def render(self, screen):
         screen.blit(self.ball, self.ballrect)            
                
-for image in image_list:
+"""for image in image_list:
     ball = Ball(image, random.randint(*speed_list), random.randint(*speed_list))
     balls.append(ball)   
 
@@ -203,7 +211,7 @@ while Timer > 0:
     current_second = time.localtime()[5]
     if stored_second != current_second:
         stored_second = current_second
-        Timer -= 1
+        Timer -= 1"""
 
 
 

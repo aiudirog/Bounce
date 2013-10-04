@@ -61,6 +61,7 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeba
     for num in range((x/2)):
         to_exit_or_not_to_exit()
         vert = v*(counter) + a/2*(counter**2)
+        vert = int(vert)
         #mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scaler, mon_size[1] / scaler))
         #vert_speed = vert - (mon_rect.bottom/2)
         mon_rect = mon_rect.move(counter, vert)
@@ -73,7 +74,6 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeba
 #Eventually need to make scaler run proportional to x so that it is a smooth scale down to 10% over the arc.
         if scaler  > 10:
             scaler -= 1
-    exit_now()
     
     
     

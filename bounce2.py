@@ -48,12 +48,13 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeba
     #  v = (1/2a t**2) / t
     #  v = (1/2a x**2) / x
     #acceleration:
-    a = 32
+    a = 0.007
     #final horisontal point:
     x = ball_rect.right - (ball_size[0] / 3)
     if (x%2) != 0:
         x += 1
     v = (-(a/2 * (x**2)))/x
+    v = int(v)
     
     counter = 0
     scaler = 100

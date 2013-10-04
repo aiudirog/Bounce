@@ -33,7 +33,8 @@ def will_be_off_screen(dimmensions):
         return(4)
     else:
         return(0)
-def mov_poke_into_ball(mon_shrunk, mon_rect, current_death_star_pokeball, catchball_rect, catchball_size):
+
+def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeball, catchball_rect, catchball_size):
     ball = current_death_star_pokeball
     ball_rect = catchball_rect
     ball_size = catchball_size
@@ -48,11 +49,21 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, current_death_star_pokeball, catchb
     x = ball_rect.right - (ball_size[0] / 3)
     if (x%2) != 0:
         x += 1
-    v = a/2 * (x**2)
+    v = -(a/2 * (x**2))
     counter = 0
-    for num in range(x/2):
+    scaler = 100
+    for num in range((x/2)):
         vert = v(counter) + a/2(counter**2)
+        mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scaler, mon_size[1] / scaler))
         mon_rect = mon_rect.move(counter, vert)
+        screen.fill(background)
+        screen.blit(mon_shrunk, mon_rect)
+        screen.blit(ball, ball_rect)
+        pygame.display.flip()
+        counter += 2
+#Eventually need to make scaler run proportional to x so that it is a smooth scale down to 10% over the arc.
+        if scaler  > 10:
+            scaler -= 1
 
     
     
@@ -265,6 +276,7 @@ for image in list_of_death_star_pokeballs:
     screen.blit(current_death_star_pokeball, catchball_rect)
     pygame.display.flip()
 
+mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeball, catchball_rect, catchball_size)
 
   
 while True:

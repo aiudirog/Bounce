@@ -81,11 +81,12 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeba
             scaler -= 1
     
     
-    
+is_mac = False
 if os.name == "posix":
     plat = platform.system() 
     if plat == "Darwin":
         speed_list = [5,25]
+        is_mac = True
     else:
         speed_list = [2,10]
 else:

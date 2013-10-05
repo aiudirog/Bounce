@@ -65,16 +65,17 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeba
         vert = int(vert)
 	if vert_old == 0:
             vert_old = vert
-        vert = vert - vert_old
+        vert_dif = vert - vert_old
         #mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scaler, mon_size[1] / scaler))
         #vert_speed = vert - (mon_rect.bottom/2)
-        mon_rect = mon_rect.move(2, vert)
+        mon_rect = mon_rect.move(2, vert_dif)
         print counter, "|", vert, "|", v, "|", x
         screen.fill(background)
         screen.blit(mon_shrunk, mon_rect)
         screen.blit(ball, ball_rect)
         pygame.display.flip()
         counter += 2
+        vert_old = vert
 #Eventually need to make scaler run proportional to x so that it is a smooth scale down to 10% over the arc.
         if scaler  > 10:
             scaler -= 1

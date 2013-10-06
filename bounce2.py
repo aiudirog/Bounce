@@ -1,4 +1,4 @@
-import sys, pygame, random, os, platform, time
+import sys, pygame, random, os, platform, time, math
 from pygame.locals import *
 #import pygame._view
 pygame.init()
@@ -42,43 +42,44 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeba
     ball = current_death_star_pokeball
     ball_rect = catchball_rect
     ball_size = catchball_size
-
+    mon = mon_shrunk
     # Formula for movement:
     #  x = x, + vt + 1/2at ** 2
     #  v = (1/2a t**2) / t
     #  v = (1/2a x**2) / x
     #acceleration:
-    a = 0.007
-    #final horisontal point:
-    x = ball_rect.right - (ball_size[0] / 3)
+    a = 0.003
+    #final horizontal point:
+    x = (ball_rect.right+200)# - (ball_size[0] / 1))
     if (x%2) != 0:
         x += 1
     v = (-(a/2 * (x**2)))/x
     v = int(v)
     
     counter = 0
-    scaler = 100
+    scaler = 1.0
     vert_old = 0
-    for num in range((x/2)):
+    while mon_rect.top <= (ball_rect.bottom - (ball_size[1] / 1.8)):
         to_exit_or_not_to_exit()
-        vert = v*(counter) + a/2*(counter**2)
-        vert = int(vert)
-	if vert_old == 0:
-            vert_old = vert
+        vert = int(v*(counter) + a/2*(counter**2))
         vert_dif = vert - vert_old
-        #mon_shrunk = pygame.transform.smoothscale(mon, (mon_size[0] / scaler, mon_size[1] / scaler))
-        #vert_speed = vert - (mon_rect.bottom/2)
+        x_scaled = int(mon_size[0] / scaler)
+        y_scaled = int(mon_size[1] / scaler)
+        mon_shrunk = pygame.transform.smoothscale(mon, (x_scaled, y_scaled))
+        #mon_rect = mon_shrunk.get_rect()
         mon_rect = mon_rect.move(2, vert_dif)
+        #mon_rect.right += 2
+        #mon_rect.top += vert_dif
         print counter, "|", vert, "|", v, "|", x
         screen.fill(background)
-        screen.blit(mon_shrunk, mon_rect)
         screen.blit(ball, ball_rect)
+        screen.blit(mon_shrunk, mon_rect)
         pygame.display.flip()
         counter += 2
         vert_old = vert
 #Eventually need to make scaler run proportional to x so that it is a smooth scale down to 10% over the arc.
-        if scaler  > 10:
-            scaler -= 1
+        if scaler  < 50:
+            scaler += 0.01
     
     
 is_mac = False

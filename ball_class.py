@@ -1,62 +1,104 @@
-import sys, pygame, random, os, platform, time
+import sys, pygame, random, os, platform, time, math
 from pygame.locals import *
 
-balls = []
-images = ["0000.png", "0000.png", "0000.png", "0000.png"]
-black = 0, 0, 0
+def we_are_frozen():
+    # All of the modules are built-in to the interpreter, e.g., by py2exe
+    return hasattr(sys, "frozen")
 
-size = WIDTH, HEIGHT = 1920, 1080
+def module_path():
+    encoding = sys.getfilesystemencoding()
+    if we_are_frozen():
+        return os.path.dirname(unicode(sys.executable, encoding))
+    return os.path.dirname(unicode(__file__, encoding))
 
-screen = pygame.display.set_mode(size)
+my_path = module_path()
+dir = my_path
 
 
-
-def to_exit_or_not_to_exit():
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
-        elif event.type == KEYDOWN:
-            if event.key == K_ESCAPE:
-                sys.exit()
-                pygame.quit()
-                
 class Ball():
-
-    def __init__(self, image, x, y): 
+    
+    def __init__(self, image, x, y, screen): 
     #This function runs when you create the class.
         self.speed = [x,y]
         self.image = image
         self.ball = None
         self.ballrect = None
-        
+        self.WIDTH = None
+        self.HEIGHT = None 
+        self.screen = screen
         self.setup()
-    
+       
     def setup(self):
-        self.ball = pygame.image.load(self.image)
+        self.ball = pygame.image.load(os.path.join(dir, "Balls" , self.image))
         self.ballrect = self.ball.get_rect()
+        self.WIDTH, self.HEIGHT = self.screen.get_size()
         
+    def will_be_off_screen(self, dimmensions):
+        if dimmensions.left < 0:
+            return(1)
+        elif dimmensions.right > self.WIDTH:
+            return(2)
+        elif dimmensions.top < 0:
+            return(3)
+        elif dimmensions.bottom > self.HEIGHT:
+            return(4)
+        else:
+            return(0)    
+            
     def update(self):
+    #Change direction and speed when encountering a wall.
+    #This works. I know that.--------------------------
         self.ballrect = self.ballrect.move(self.speed)
-        if self.ballrect.left < 0 or self.ballrect.right > WIDTH:
+        if self.ballrect.left < 0 and self.ballrect.top < 0:
             self.speed[0] = -self.speed[0]
-        if self.ballrect.top < 0 or self.ballrect.bottom > HEIGHT:
             self.speed[1] = -self.speed[1]
-        
-    def render(self, screen):
-        screen.blit(self.ball, self.ballrect)
+        elif self.ballrect.left < 0 and self.ballrect.bottom > self.HEIGHT:
+            self.speed[0] = -self.speed[0]
+            self.speed[1] = -self.speed[1]
+        elif self.ballrect.right > self.WIDTH  and self.ballrect.top < 0:
+            self.speed[0] = -self.speed[0]
+            self.speed[1] = -self.speed[1]
+        elif self.ballrect.right > self.WIDTH and self.ballrect.bottom > self.HEIGHT:
+            self.speed[0] = -self.speed[0]
+            self.speed[1] = -self.speed[1]
+        elif self.ballrect.left < 0 or self.ballrect.right > self.WIDTH:
+            if self.speed[0] < 0:
+                self.speed[0] = random.randint(*speed_list)
+            else:
+                self.speed[0] = random.randint(*speed_list)
+                self.speed[0] = -self.speed[0]
+            if self.speed[1] < 0:
+                self.speed[1] = random.randint(*speed_list)
+                self.speed[1] = -self.speed[1]
+            else:
+                self.speed[1] = random.randint(*speed_list)
+
+        elif self.ballrect.top < 0 or self.ballrect.bottom > self.HEIGHT:
+            if self.speed[1] < 0:
+                self.speed[1] = random.randint(*speed_list)
+            else:
+                self.speed[1] = random.randint(*speed_list)
+                self.speed[1] = -self.speed[1]
+            if self.speed[0] < 0:
+                self.speed[0] = random.randint(*speed_list)
+                self.speed[0] = -self.speed[0]
+            else:
+                self.speed[0] = random.randint(*speed_list)
+        for z in range(4):
+            off = self.will_be_off_screen(self.ballrect)
+            if off != 0:
+                if off == 1:
+                    self.ballrect.left = 0
+                if off == 2:
+                    self.ballrect.right = self.WIDTH
+                if off == 3:
+                    self.ballrect.top = 0
+                if off == 4:
+                    self.ballrect.bottom = self.HEIGHT
+    def update_no_boundaries(self):    
+        self.ballrect = self.ballrect.move(self.speed)
+    
+    def render(self):
+        self.screen.blit(self.ball, self.ballrect)    
 
 
-for image in images:
-    ball = Ball(image, random.randint(5,20), random.randint(5,20))
-    balls.append(ball)
-    
-while True:
-    to_exit_or_not_to_exit()
-    
-    screen.fill(black)
-    
-    for ball in balls:
-        ball.update()
-        ball.render(screen)
-    
-    pygame.display.flip()

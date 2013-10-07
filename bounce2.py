@@ -232,13 +232,13 @@ while True:
             
     catchball = pygame.image.load("0000.png")
     catchball_size = catchball.get_size()
-    catchball = pygame.transform.smoothscale(catchball, (catchball_size[0] / 3, catchball_size[1] / 3))
-    catchball_size = catchball.get_size()
+    #catchball = pygame.transform.smoothscale(catchball, (catchball_size[0] / 3, catchball_size[1] / 3))
+    #catchball_size = catchball.get_size()
     catchball_rect = catchball.get_rect()
     
     if first_time == True:
         first_time = False
-        for files in os.listdir(os.path.join("Premium_Ball" , "output", "no_shadows")):
+        for files in os.listdir(os.path.join("Premium_Ball" , "output", "no_shadows_resized")):
             if files.endswith(".png"):
                 list_of_death_star_pokeballs.append(files)
                 
@@ -249,10 +249,10 @@ while True:
 
         for index, image in enumerate(list_of_death_star_pokeballs):
             to_exit_or_not_to_exit()
-            loaded_death_star_pokeballs.append(pygame.image.load(os.path.join(dir, "Premium_Ball" , "output", "no_shadows", image)))
-            front_face_loaded_death_star_pokeballs.append(pygame.image.load(os.path.join(dir, "Premium_Ball" , "output", "Slice", image)))
-            loaded_death_star_pokeballs[index] = pygame.transform.smoothscale(loaded_death_star_pokeballs[index], (catchball_size[0], catchball_size[1]))
-            front_face_loaded_death_star_pokeballs[index] = pygame.transform.smoothscale(front_face_loaded_death_star_pokeballs[index], (catchball_size[0], catchball_size[1]))
+            loaded_death_star_pokeballs.append(pygame.image.load(os.path.join(dir, "Premium_Ball" , "output", "no_shadows_resized", image)))
+            front_face_loaded_death_star_pokeballs.append(pygame.image.load(os.path.join(dir, "Premium_Ball" , "output", "Slice_resized", image)))
+            #loaded_death_star_pokeballs[index] = pygame.transform.smoothscale(loaded_death_star_pokeballs[index], (catchball_size[0], catchball_size[1]))
+            #front_face_loaded_death_star_pokeballs[index] = pygame.transform.smoothscale(front_face_loaded_death_star_pokeballs[index], (catchball_size[0], catchball_size[1]))
             front_face_loaded_death_star_pokeballs.sort()
             loaded_death_star_pokeballs.sort()
 

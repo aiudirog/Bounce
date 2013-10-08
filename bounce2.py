@@ -13,6 +13,7 @@ file_names = []
 balls = []
 list_of_death_star_pokeballs = []
 death_star_pokeballs = []
+list_of_pokes = []
             
 
 screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN) 
@@ -57,7 +58,7 @@ while True:
 #This second block gives the balls a little bit of
 #to leave the screen so that the next part can be
 #loaded. 
-    Timer = 4
+    Timer = 5
     while Timer > 0:
         to_exit_or_not_to_exit()
         
@@ -106,9 +107,14 @@ while True:
 #--------------------------------------------------------------
 #Load pokemon and ball to screen, then move
 #them about.
-    mon = pygame.image.load("600px-001Bulbasaur.png")
+    for files in os.listdir(os.path.join("pokes")):
+        if files.endswith(".png"):
+            list_of_pokes.append(files)
+    number_of_pokes = len(list_of_pokes)
+    random_poke = random.randint(0,(number_of_pokes-1))
+    mon = pygame.image.load(os.path.join("pokes", list_of_pokes[random_poke]))
     scale = 100
-    for r in range(100):
+    for num in range(100):
 
         to_exit_or_not_to_exit()
         mon_size = mon.get_size()
@@ -145,7 +151,7 @@ while True:
             if catchball_rect.bottom < (HEIGHT/2 + catchball_size[1]/3):
                 break
         mon_rect = mon_rect.move(mon_speed)
-        if mon_rect.left < 0:
+        if mon_rect.left < 6:
             mon_speed = [0,0]
         screen.fill(background)
         screen.blit(mon_shrunk, mon_rect)

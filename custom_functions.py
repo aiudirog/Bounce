@@ -48,7 +48,7 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeba
     else:
         a = 0.003
     #final horizontal point:
-    x = (ball_rect.right-mon_rect.right/1.25)# - (ball_size[0] / 1))
+    x = (ball_rect.right-600/1.25)# - (ball_size[0] / 1))
     if (x%2) != 0:
         x += 1
     v = (-(a/2 * (x**2)))/x
@@ -63,13 +63,16 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeba
         x_scaled = int(mon_size[0] / scaler)
         y_scaled = int(mon_size[1] / scaler)
         mon_shrunk = pygame.transform.smoothscale(mon, (x_scaled, y_scaled))
-        mon_rect = mon_rect.move(2, vert_dif)
+        #mon_rect = mon_rect.move(2, vert_dif)
+        mon_rect.right += 2
+        mon_rect.top += vert_dif
         screen.fill(background)
         screen.blit(ball, ball_rect)
         screen.blit(mon_shrunk, mon_rect)
         pygame.display.flip()
         counter += 2
         vert_old = vert
+        
         if scaler  < 50:
             scaler += 0.01
     values_that_need_to_be_returned = [mon_shrunk, mon_rect]

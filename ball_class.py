@@ -14,17 +14,24 @@ def module_path():
 my_path = module_path()
 dir = my_path
 
+is_mac = False
+if os.name == "posix":
+    plat = platform.system() 
+    if plat == "Darwin":
+        is_mac = True
+        
 
 class Ball():
     
-    def __init__(self, image, x, y, screen): 
+    def __init__(self, image, screen): 
     #This function runs when you create the class.
-        self.speed = [x,y]
+        self.speed = []
         self.image = image
         self.ball = None
         self.ballrect = None
         self.WIDTH = None
-        self.HEIGHT = None 
+        self.HEIGHT = None
+        self.speed_list = []
         self.screen = screen
         self.setup()
        
@@ -32,6 +39,12 @@ class Ball():
         self.ball = pygame.image.load(os.path.join(dir, "Balls" , self.image))
         self.ballrect = self.ball.get_rect()
         self.WIDTH, self.HEIGHT = self.screen.get_size()
+        if is_mac == True:
+            self.speed_list = [5,25]
+        else:
+            self.speed_list = [2,10]
+        self.speed = [random.randint(*self.speed_list), random.randint(*self.speed_list)]
+        
         
     def will_be_off_screen(self, dimmensions):
         if dimmensions.left < 0:
@@ -63,27 +76,27 @@ class Ball():
             self.speed[1] = -self.speed[1]
         elif self.ballrect.left < 0 or self.ballrect.right > self.WIDTH:
             if self.speed[0] < 0:
-                self.speed[0] = random.randint(*speed_list)
+                self.speed[0] = random.randint(*self.speed_list)
             else:
-                self.speed[0] = random.randint(*speed_list)
+                self.speed[0] = random.randint(*self.speed_list)
                 self.speed[0] = -self.speed[0]
             if self.speed[1] < 0:
-                self.speed[1] = random.randint(*speed_list)
+                self.speed[1] = random.randint(*self.speed_list)
                 self.speed[1] = -self.speed[1]
             else:
-                self.speed[1] = random.randint(*speed_list)
+                self.speed[1] = random.randint(*self.speed_list)
 
         elif self.ballrect.top < 0 or self.ballrect.bottom > self.HEIGHT:
             if self.speed[1] < 0:
-                self.speed[1] = random.randint(*speed_list)
+                self.speed[1] = random.randint(*self.speed_list)
             else:
-                self.speed[1] = random.randint(*speed_list)
+                self.speed[1] = random.randint(*self.speed_list)
                 self.speed[1] = -self.speed[1]
             if self.speed[0] < 0:
-                self.speed[0] = random.randint(*speed_list)
+                self.speed[0] = random.randint(*self.speed_list)
                 self.speed[0] = -self.speed[0]
             else:
-                self.speed[0] = random.randint(*speed_list)
+                self.speed[0] = random.randint(*self.speed_list)
         for z in range(4):
             off = self.will_be_off_screen(self.ballrect)
             if off != 0:

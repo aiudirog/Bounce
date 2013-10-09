@@ -20,7 +20,12 @@ screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 WIDTH, HEIGHT = screen.get_size() 
 
 background = 255, 255, 255
-        
+
+def create_list_of_pokes():
+    for files in os.listdir(os.path.join("pokes")):
+        if files.endswith(".png"):
+            list_of_pokes.append(files)
+       
                
     #Create a list of all images in dir.balls.
 for files in os.listdir("Balls"):
@@ -31,7 +36,8 @@ for files in os.listdir("Balls"):
 for image in image_list:
     ball = Ball(image,  screen)
     balls.append(ball)   
-    
+
+create_list_of_pokes()
 while True:
 #--------------------------------------------------------------
 #This first block is the random movement of balls
@@ -107,12 +113,14 @@ while True:
 #--------------------------------------------------------------
 #Load pokemon and ball to screen, then move
 #them about.
-    for files in os.listdir(os.path.join("pokes")):
-        if files.endswith(".png"):
-            list_of_pokes.append(files)
+    if len(list_of_pokes) == 0:
+        create_list_of_pokes()
+        
     number_of_pokes = len(list_of_pokes)
     random_poke = random.randint(0,(number_of_pokes-1))
-    mon = pygame.image.load(os.path.join("pokes", list_of_pokes[random_poke]))
+    mon = pygame.image.load(os.path.join("pokes", list_of_pokes[random_poke])) 
+    list_of_pokes.remove(list_of_pokes[random_poke])
+        
     scale = 100
     for num in range(100):
 

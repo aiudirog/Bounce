@@ -64,21 +64,26 @@ while True:
 #This second block gives the balls a little bit of
 #to leave the screen so that the next part can be
 #loaded. 
-    Timer = 5
-    while Timer > 0:
+    copy_of_balls = balls
+    while True:
         to_exit_or_not_to_exit()
         
         screen.fill(background)
         
-        for ball in balls:
+        for ball in copy_of_balls:
             ball.update_no_boundaries()
             ball.render()
-           
+            
+        
         pygame.display.flip()
-        current_second = time.localtime()[5]
-        if stored_second != current_second:
-            stored_second = current_second
-            Timer -= 1
+        for ball in copy_of_balls:
+            is_ball_off_screen =  ball.is_ball_off_the_screen_thingy_majig_edge_part_of_it()
+            
+            if is_ball_off_screen == True:
+                copy_of_balls.remove(ball)
+
+        if len(copy_of_balls) == 0:
+            break
 
 
 #--------------------------------------------------------------
@@ -99,12 +104,13 @@ while True:
         front_face_loaded_death_star_pokeballs = []
 
 
-        for index, image in enumerate(list_of_death_star_pokeballs):
+        for image in list_of_death_star_pokeballs:
             to_exit_or_not_to_exit()
             loaded_death_star_pokeballs.append(pygame.image.load(os.path.join(dir, "Premium_Ball" , "output", "no_shadows_resized", image)))
             front_face_loaded_death_star_pokeballs.append(pygame.image.load(os.path.join(dir, "Premium_Ball" , "output", "Slice_resized", image)))
-            front_face_loaded_death_star_pokeballs.sort()
-            loaded_death_star_pokeballs.sort()
+        front_face_loaded_death_star_pokeballs.sort()
+        loaded_death_star_pokeballs.sort()
+        print list_of_death_star_pokeballs
 
     else:
         front_face_loaded_death_star_pokeballs.reverse()
@@ -176,7 +182,7 @@ while True:
         pygame.display.flip()
         end_frame = index    
 
-    new_mon = mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, loaded_death_star_pokeballs[end_frame], catchball_rect, catchball_size, screen)
+    new_mon = mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, loaded_death_star_pokeballs[end_frame], catchball_rect, catchball_size, screen, front_face_loaded_death_star_pokeballs[end_frame])
     mon_shrunk = new_mon[0]
     mon_rect = new_mon[1]
     front_face_loaded_death_star_pokeballs.reverse()

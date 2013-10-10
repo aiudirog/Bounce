@@ -108,9 +108,21 @@ class Ball():
                     self.ballrect.top = 0
                 if off == 4:
                     self.ballrect.bottom = self.HEIGHT
+                    
     def update_no_boundaries(self):    
         self.ballrect = self.ballrect.move(self.speed)
-    
+        
+    def is_ball_off_the_screen_thingy_majig_edge_part_of_it(self):
+        if self.ballrect.left > self.WIDTH:
+            return True
+        elif self.ballrect.top > self.HEIGHT:
+            return True
+        elif self.ballrect.right < 0:
+            return True
+        elif self.ballrect.bottom < 0:
+            return True
+        else:
+            return False
     def render(self):
         self.screen.blit(self.ball, self.ballrect)    
 

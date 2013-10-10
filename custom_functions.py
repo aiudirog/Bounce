@@ -33,7 +33,7 @@ def exit_now():
     pygame.quit()
                 
 
-def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeball, catchball_rect, catchball_size, screen):
+def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeball, catchball_rect, catchball_size, screen, front_face_loaded_death_star_pokeballs):
     ball = current_death_star_pokeball
     ball_rect = catchball_rect
     ball_size = catchball_size
@@ -69,6 +69,7 @@ def mov_poke_into_ball(mon_shrunk, mon_rect, mon_size, current_death_star_pokeba
         screen.fill(background)
         screen.blit(ball, ball_rect)
         screen.blit(mon_shrunk, mon_rect)
+        screen.blit(front_face_loaded_death_star_pokeballs, ball_rect)
         pygame.display.flip()
         counter += 2
         vert_old = vert

@@ -108,8 +108,6 @@ while True:
             to_exit_or_not_to_exit()
             loaded_death_star_pokeballs.append(pygame.image.load(os.path.join(dir, "Premium_Ball" , "output", "no_shadows_resized", image)))
             front_face_loaded_death_star_pokeballs.append(pygame.image.load(os.path.join(dir, "Premium_Ball" , "output", "Slice_resized", image)))
-        front_face_loaded_death_star_pokeballs.sort()
-        loaded_death_star_pokeballs.sort()
         print list_of_death_star_pokeballs
 
     else:
@@ -152,20 +150,20 @@ while True:
     pygame.display.flip()
     
 #move ball across screen and bounce on bottom
-    catchball_speed = [-6,6]
+    catchball_speed = [-10,10]
     touched_bottom = False
-    mon_speed = [-6,0]
+    mon_speed = [-10,0]
     while True:
         to_exit_or_not_to_exit()
         catchball_rect = catchball_rect.move(catchball_speed)
-        if catchball_rect.bottom > HEIGHT:
+        if catchball_rect.bottom > (HEIGHT-10):
             catchball_speed [1] = -catchball_speed[1]
             touched_bottom = True
         if touched_bottom == True:
             if catchball_rect.bottom < (HEIGHT/2 + catchball_size[1]/3):
                 break
         mon_rect = mon_rect.move(mon_speed)
-        if mon_rect.left < 6:
+        if mon_rect.left < 10:
             mon_speed = [0,0]
         screen.fill(background)
         screen.blit(mon_shrunk, mon_rect)
@@ -203,10 +201,12 @@ while True:
 
     for num in range(100000):
         to_exit_or_not_to_exit()
+    counting_number_thingamagij = -1
     while True:
         to_exit_or_not_to_exit()
-        catchball_rect = catchball_rect.move(catchball_speed)
-        mon_rect = mon_rect.move(mon_speed)
+        catchball_rect = catchball_rect.move((counting_number_thingamagij, counting_number_thingamagij**2))
+        counting_number_thingamagij -= 1
+        #mon_rect = mon_rect.move(mon_speed)
         if catchball_rect.top > HEIGHT:
             break
         screen.fill(background)
